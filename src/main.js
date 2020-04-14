@@ -1,6 +1,7 @@
 import Board from "./components/board";
 import Filter from "./components/filter";
 import LoadMoreButton from "./components/load-more-button";
+import NoTasks from "./components/no-tasks";
 import SiteMenu from "./components/site-menu";
 import Sort from "./components/sort";
 import Task from "./components/task";
@@ -15,27 +16,47 @@ const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 
 const renderTask = (taskListElement, task) => {
-  const onEditButtonClick = () => {
+  const replaceTaskToEdit = () => {
     taskListElement.replaceChild(taskEditElement, taskElement);
   };
 
-  const onEditFormSubmit = (evt) => {
-    evt.preventDefault();
+  const replaceEditToTask = () => {
     taskListElement.replaceChild(taskElement, taskEditElement);
+  };
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+    if (isEscKey) {
+      replaceEditToTask();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
   };
 
   const taskElement = new Task(task).getElement();
   const editButton = taskElement.querySelector(`.card__btn--edit`);
-  editButton.addEventListener(`click`, onEditButtonClick);
+  editButton.addEventListener(`click`, () => {
+    replaceTaskToEdit();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
   const taskEditElement = new TaskEdit(task).getElement();
   const editForm = taskEditElement.querySelector(`form`);
-  editForm.addEventListener(`submit`, onEditFormSubmit);
+  editForm.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceEditToTask();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
 
   render(taskListElement, taskElement);
 };
 
 const renderBoard = (boardElement, tasks) => {
+  const isAllTasksArchived = tasks.every((task) => task.isArchive);
+  if (isAllTasksArchived) {
+    render(boardElement, new NoTasks().getElement());
+    return;
+  }
+
   render(boardElement, new Sort().getElement());
   render(boardElement, new Tasks().getElement());
 
