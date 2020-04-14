@@ -10,13 +10,8 @@ export const formatTime = (date) => {
 };
 
 export const createElement = (template) => {
-  // console.log(template);
   const newElement = document.createElement(`div`);
-  // console.log(newElement);
   newElement.innerHTML = template;
-  // console.log(newElement);
-  // console.log(`firstChild`, newElement.firstChild);
-  // console.log(`firstElementChild`, newElement.firstElementChild);
   return newElement.firstElementChild;
 };
 
