@@ -2,8 +2,7 @@ import {createElement} from "../utils";
 
 const createBoardTemplate = () => {
   return (
-    `      <section class="board container">
-  </section>`
+    `<section class="board container"></section>`
   );
 };
 

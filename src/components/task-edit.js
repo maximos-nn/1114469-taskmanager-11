@@ -4,7 +4,7 @@ import {formatTime, createElement} from "../utils";
 const createColorsMarkup = (colors, currentColor) => {
   return colors.map((color, index) => {
     return (
-      `  <input
+      `<input
       type="radio"
       id="color-${color}-${index}"
       class="card__color-input card__color-input--${color} visually-hidden"
@@ -16,8 +16,7 @@ const createColorsMarkup = (colors, currentColor) => {
       for="color-${color}-${index}"
       class="card__color card__color--${color}"
       >${color}</label
-    >
-  `
+    >`
     );
   }).join(`\n`);
 };
@@ -26,7 +25,7 @@ const createRepeatingDaysMarkup = (days, repeatingDays) => {
   return days.map((day, index) => {
     const isChecked = repeatingDays[day];
     return (
-      `  <input
+      `<input
       class="visually-hidden card__repeat-day-input"
       type="checkbox"
       id="repeat-${day}-${index}"
@@ -36,8 +35,7 @@ const createRepeatingDaysMarkup = (days, repeatingDays) => {
     />
     <label class="card__repeat-day" for="repeat-${day}-${index}"
       >${day}</label
-    >
-  `
+    >`
     );
   }).join(`\n`);
 };
@@ -59,7 +57,7 @@ const createTaskEditTemplate = (task) => {
   const colorsMarkup = createColorsMarkup(COLORS, color);
 
   return (
-    `          <article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
+    `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__color-bar">
@@ -86,7 +84,7 @@ const createTaskEditTemplate = (task) => {
               </button>
 
               ${isDateShowing ?
-      `              <fieldset class="card__date-deadline">
+      `<fieldset class="card__date-deadline">
               <label class="card__input-deadline-wrap">
                 <input
                   class="card__date"
@@ -96,20 +94,18 @@ const createTaskEditTemplate = (task) => {
                   value="${date} ${time}"
                 />
               </label>
-            </fieldset>
-` : ``}
+            </fieldset>` : ``}
 
               <button class="card__repeat-toggle" type="button">
                 repeat:<span class="card__repeat-status">${isRepeatingTask ? `yes` : `no`}</span>
               </button>
 
               ${isRepeatingTask ?
-      `              <fieldset class="card__repeat-days">
+      `<fieldset class="card__repeat-days">
               <div class="card__repeat-days-inner">
               ${repeatingDaysMarkup}
               </div>
-            </fieldset>
-` : ``}
+            </fieldset>` : ``}
             </div>
           </div>
 
@@ -127,8 +123,7 @@ const createTaskEditTemplate = (task) => {
         </div>
       </div>
     </form>
-  </article>
-`
+  </article>`
   );
 };
 

@@ -2,9 +2,7 @@ import {createElement} from "../utils";
 
 const createTasksTemplate = () => {
   return (
-    `    <div class="board__tasks">
-    </div>
-`
+    `<div class="board__tasks"></div>`
   );
 };
 

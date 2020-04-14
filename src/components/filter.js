@@ -3,7 +3,7 @@ import {createElement} from "../utils";
 const createFilterMarkup = (filter, isChecked, isDisabled) => {
   const {title, count} = filter;
   return (
-    `    <input
+    `<input
     type="radio"
     id="filter__${title}"
     class="filter__input visually-hidden"
@@ -13,18 +13,16 @@ const createFilterMarkup = (filter, isChecked, isDisabled) => {
   />
   <label for="filter__${title}" class="filter__label">
     ${title} <span class="filter__${title}-count">${count}</span></label
-  >
-`
+  >`
   );
 };
 
 const createFilterTemplate = (filters) => {
   const filtersMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0, i === 1)).join(`\n`);
   return (
-    `      <section class="main__filter filter container">
+    `<section class="main__filter filter container">
     ${filtersMarkup}
-  </section>
-`
+  </section>`
   );
 };
 

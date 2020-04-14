@@ -16,7 +16,7 @@ const createTaskTemplate = (task) => {
   const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
 
   return (
-    `          <article class="card card--${color} ${repeatClass} ${deadlineClass}">
+    `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
@@ -58,8 +58,7 @@ const createTaskTemplate = (task) => {
         </div>
       </div>
     </div>
-  </article>
-`
+  </article>`
   );
 };
 
