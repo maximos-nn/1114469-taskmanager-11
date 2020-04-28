@@ -1,14 +1,17 @@
 import {formatTime, formatDate} from "../utils/format";
+import {isOverdueDate} from "../utils/common";
 import {AbstractComponent} from "./abstract-component";
+import {encode} from "he";
 
 const createTaskTemplate = (task) => {
-  const {description, dueDate, color, repeatingDays, isArchive, isFavorite} = task;
+  const {description: notSanitizedDescription, dueDate, color, repeatingDays, isArchive, isFavorite} = task;
 
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
   const isDateShowing = !!dueDate;
 
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
+  const description = encode(notSanitizedDescription);
 
   const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
   const deadlineClass = isExpired ? `card--deadline` : ``;
