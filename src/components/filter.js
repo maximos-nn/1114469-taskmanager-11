@@ -1,6 +1,12 @@
 import {AbstractComponent} from "./abstract-component";
 
-const createFilterMarkup = (filter, isChecked, isDisabled) => {
+const FILTER_ID_PREFIX = `filter__`;
+
+const getFilterNameById = (id) => {
+  return id.substring(FILTER_ID_PREFIX.length);
+};
+
+const createFilterMarkup = (filter, isChecked) => {
   const {title, count} = filter;
   return (
     `<input
@@ -9,7 +15,6 @@ const createFilterMarkup = (filter, isChecked, isDisabled) => {
     class="filter__input visually-hidden"
     name="filter"
     ${isChecked ? `checked` : ``}
-    ${isDisabled ? `disabled` : ``}
   />
   <label for="filter__${title}" class="filter__label">
     ${title} <span class="filter__${title}-count">${count}</span></label
@@ -18,7 +23,7 @@ const createFilterMarkup = (filter, isChecked, isDisabled) => {
 };
 
 const createFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0, i === 1)).join(`\n`);
+  const filtersMarkup = filters.map((it) => createFilterMarkup(it, it.checked)).join(`\n`);
   return (
     `<section class="main__filter filter container">
     ${filtersMarkup}
@@ -34,5 +39,12 @@ export class Filter extends AbstractComponent {
 
   getTemplate() {
     return createFilterTemplate(this._filters);
+  }
+
+  setFilterChangeHandler(handler) {
+    this.getElement().addEventListener(`change`, (evt) => {
+      const filterName = getFilterNameById(evt.target.id);
+      handler(filterName);
+    });
   }
 }
