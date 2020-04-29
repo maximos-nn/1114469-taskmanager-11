@@ -64,7 +64,7 @@ const createTaskEditTemplate = (task, options = {}) => {
   const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
   const isBlockSaveButton = isDateShowing && isRepeatingTask ||
     isRepeatingTask && !isRepeating(activeRepeatingDays) ||
-    !isAllowableDescriptionLength(description);
+    !isAllowableDescriptionLength(currentDescription);
 
   const date = isDateShowing && dueDate ? formatDate(dueDate) : ``;
   const time = isDateShowing && dueDate ? formatTime(dueDate) : ``;
