@@ -70,6 +70,8 @@ export class TaskController {
         if (oldTaskEditComponent && oldTaskComponent) {
           replace(this._taskComponent, oldTaskComponent);
           replace(this._taskEditComponent, oldTaskEditComponent);
+          remove(oldTaskComponent);
+          remove(oldTaskEditComponent);
           this._replaceEditToTask();
         } else {
           render(this._container, this._taskComponent);
