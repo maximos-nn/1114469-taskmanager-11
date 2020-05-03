@@ -4,6 +4,8 @@ import {Task as TaskModel} from "../models/task";
 import {render, replace, remove, RenderPosition} from "../utils/render";
 import {COLOR, DAYS} from "../const";
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 export const Mode = {
   ADDING: `adding`,
   DEFAULT: `default`,
@@ -88,9 +90,15 @@ export class TaskController {
 
       const formData = this._taskEditComponent.getData();
       const data = parseFormData(formData);
+
+      this._taskEditComponent.setData({saveButtonText: `Saving...`});
+
       this._onDataChange(this, task, data);
     });
-    this._taskEditComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
+    this._taskEditComponent.setDeleteButtonClickHandler(() => {
+      this._taskEditComponent.setData({deleteButtonText: `Deleting...`});
+      this._onDataChange(this, task, null);
+    });
 
     switch (mode) {
       case Mode.DEFAULT:
@@ -125,6 +133,35 @@ export class TaskController {
     remove(this._taskEditComponent);
     remove(this._taskComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  shake() {
+    this._taskEditComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this.setErrorStyle();
+
+    setTimeout(() => {
+      this._taskEditComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().style.animation = ``;
+
+      this._taskEditComponent.setData({
+        saveButtonText: `Save`,
+        deleteButtonText: `Delete`,
+      });
+      this.setErrorStyle();
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  setErrorStyle() {
+    this._taskEditComponent.getElement().querySelector(`.card__inner`).style.outline = `2px solid red`;
+    this._taskEditComponent.getElement().style.zIndex = `1`;
+    this._taskComponent.getElement().style.outline = `2px solid red`;
+  }
+
+  clearErrorStyle() {
+    this._taskEditComponent.getElement().querySelector(`.card__inner`).style.outline = ``;
+    this._taskEditComponent.getElement().style.zIndex = ``;
+    this._taskComponent.getElement().style.outline = ``;
   }
 
   _replaceTaskToEdit() {
